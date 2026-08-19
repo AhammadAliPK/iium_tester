@@ -62,4 +62,20 @@ class User extends Authenticatable implements PasskeyUser
             ? Str::substr($initials, 0, 1).Str::substr($initials, -1)
             : $initials;
     }
+
+    /**
+     * Get the memberships for the user.
+     */
+    public function memberships()
+    {
+        return $this->hasMany(Membership::class);
+    }
+
+    /**
+     * Get the projects for the user via memberships.
+     */
+    public function projects()
+    {
+        return $this->belongsToMany(Project::class, 'memberships')->withTimestamps();
+    }
 }

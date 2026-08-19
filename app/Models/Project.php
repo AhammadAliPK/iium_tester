@@ -62,4 +62,20 @@ class Project extends Model
     {
         return $query->whereNotNull('archived_at');
     }
+
+    /**
+     * Get the memberships for the project.
+     */
+    public function memberships()
+    {
+        return $this->hasMany(Membership::class);
+    }
+
+    /**
+     * Get the users for the project via memberships.
+     */
+    public function users()
+    {
+        return $this->belongsToMany(User::class, 'memberships')->withTimestamps();
+    }
 }

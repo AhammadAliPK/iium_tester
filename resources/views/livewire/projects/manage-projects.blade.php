@@ -117,7 +117,11 @@
             <x-iium-card>
                 <div style="text-align: center; padding: 40px 0;">
                     <p style="color: var(--color-iium-text-secondary); font-size: 16px; margin: 0;">
-                        No active projects yet. @if($this->isAdmin())Create your first project above.@endif
+                        @if($this->isAdmin())
+                            No active projects yet. Create your first project above.
+                        @else
+                            You haven't been assigned to any active projects yet.
+                        @endif
                     </p>
                 </div>
             </x-iium-card>

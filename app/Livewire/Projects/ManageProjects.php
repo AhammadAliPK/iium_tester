@@ -169,10 +169,16 @@ class ManageProjects extends Component
 
     /**
      * Get active projects.
+     * Admin sees all active, non-admin sees only assigned projects via membership.
      */
     public function getActiveProjectsProperty()
     {
-        return Project::isActive()->latest()->get();
+        if (Gate::allows('admin')) {
+            return Project::isActive()->latest()->get();
+        }
+
+        // Non-admins see only their assigned active projects
+        return auth()->user()->projects()->isActive()->latest()->get();
     }
 
     /**
