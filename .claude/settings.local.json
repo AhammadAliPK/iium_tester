@@ -15,7 +15,14 @@
       "Bash(find _bmad-output -name \"prd.md\")",
       "WebSearch",
       "Read(//Applications/MAMP/bin/php/**)",
-      "Bash(/Applications/MAMP/bin/php/php8.3*/bin/php -v)"
+      "Bash(/Applications/MAMP/bin/php/php8.3*/bin/php -v)",
+      "Bash(composer --version)",
+      "Bash(npm --version)",
+      "Bash(git --version)",
+      "Bash(/Applications/MAMP/Library/bin/mysql --version)",
+      "Bash(uv run:*)",
+      "Bash(/tmp/bmad-sprint-venv/bin/pip install:*)",
+      "Bash(mkdir -p /tmp/bmad-py-shim)"
     ]
   }
 }

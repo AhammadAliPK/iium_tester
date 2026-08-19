@@ -3,7 +3,7 @@ name: iium_tester
 type: architecture-spine
 purpose: build-substrate
 altitude: initiative
-paradigm: server-rendered MVC monolith with Livewire 3 islands (Laravel 13); domain state machines in plain PHP services
+paradigm: server-rendered MVC monolith with Livewire islands (Laravel 13); domain state machines in plain PHP services
 scope: iium_tester whole system — project/user administration, test case authoring & versioning, staged execution pipeline, reports & submission, re-run cycle closure, developer private runs
 status: final
 created: 2026-08-19
@@ -35,7 +35,7 @@ Persistence   app/Models (Eloquent) + migrations
 
 - **Binds:** all
 - **Prevents:** drift into SPA/API-first splits, mixed rendering models, or JWT/session dual auth
-- **Rule:** Single Laravel 13 deployable. UI is Blade + Livewire 3 + Alpine + Tailwind only — no React, no Vue, no separate JSON API surface. Auth is Laravel session (httpOnly cookie) exclusively; role checks ride the session user. No JavaScript-framework frontend code enters the tree.
+- **Rule:** Single Laravel 13 deployable. UI is Blade + Livewire + Alpine + Tailwind only — no React, no Vue, no separate JSON API surface. Auth is Laravel session (httpOnly cookie) exclusively; role checks ride the session user. No JavaScript-framework frontend code enters the tree.
 
 ### AD-2 — Run/Cycle state transitions are owned by domain services
 
@@ -113,7 +113,7 @@ Rule encoded by the graph: `app/Domain` imports Models only — never HTTP, Live
 | --- | --- |
 | PHP | ≥ 8.3 |
 | Laravel | 13.x |
-| Livewire | 3.x (official starter kit) |
+| Livewire | 4.x (ships in the Laravel 13 starter kit) |
 | Tailwind CSS | 4.x (per current starter kit; DLS tokens as theme extensions) |
 | barryvdh/laravel-dompdf | 3.x |
 | MySQL (MAMP local) | 8.x |
