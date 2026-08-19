@@ -10,8 +10,8 @@
             </div>
         </div>
 
-        <!-- Create Project Form (Admin Only) -->
         @if($this->isAdmin())
+            <!-- Create Project Form (Admin Only) -->
             <x-iium-card padding="24px" style="margin-bottom: 32px;">
                 <form wire:submit="create">
                     <div style="display: flex; gap: 16px; align-items: flex-end;">
@@ -192,15 +192,4 @@
             </div>
         </div>
     @endif
-
-    @script
-    <script>
-        // Alpine.js for modal interactions
-        document.addEventListener('alpine:init', () => {
-            Alpine.data('archiveModal', () => ({
-                open: true
-            }));
-        });
-    </script>
-    @endscript
 </div>

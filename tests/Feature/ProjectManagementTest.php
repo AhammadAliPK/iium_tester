@@ -50,15 +50,28 @@ class ProjectManagementTest extends TestCase
         // Should see the project name
         $response->assertSee('Test Project');
 
-        // Should NOT see management controls
+        // Should see the Projects section header
+        $response->assertSee('Projects');
+
+        // AC: controls must be ABSENT from rendered HTML, not disabled.
+        // Assert on visible labels + wire: bindings (the wire:snapshot JSON serializes
+        // property names like "confirmingArchive", so bare 'Archive' would false-positive).
         $response->assertDontSee('Create Project');
         $response->assertDontSee('New Project Name');
-        $response->assertDontSee('Rename');
-        $response->assertDontSee('Archive');
+        $response->assertDontSee('wire:submit="create"');
+        $response->assertDontSee('wire:click="startEditing');
+        $response->assertDontSee('wire:click="confirmArchive');
+        $response->assertDontSee('wire:click="archive');
+
+        // The key test: non-admins should not be able to access the management route directly
+        $managementResponse = $this->get(route('projects'));
+        $managementResponse->assertStatus(403);
     }
 
     /**
      * Matrix row: Non-admin POSTs create → role != admin → 403 with "not permitted for your role"
+     * The dashboard-embedded component is the real attack surface: non-admins can reach it,
+     * so the action-level gate (not just the /projects route middleware) must hold.
      */
     public function test_non_admin_cannot_create_project(): void
     {
@@ -68,9 +81,69 @@ class ProjectManagementTest extends TestCase
         // Verify no projects exist initially
         $this->assertDatabaseCount('projects', 0);
 
+        // Direct action call against the dashboard-embedded component → 403
+        Livewire::test('projects.manage-projects')
+            ->set('newProjectName', 'Sneaky Project')
+            ->call('create')
+            ->assertForbidden();
+
+        // No row created
+        $this->assertDatabaseCount('projects', 0);
+
         // Non-admin should not be able to access the management route directly
         $response = $this->get(route('projects'));
         $response->assertStatus(403);
+    }
+
+    /**
+     * Non-admin: every management action on the embedded component returns 403 (AD-5)
+     */
+    public function test_non_admin_cannot_run_any_management_action(): void
+    {
+        $user = User::factory()->create(['role' => UserRole::BUSINESS_USER]);
+        $this->actingAs($user);
+
+        $project = Project::create(['name' => 'Locked Down']);
+
+        Livewire::test('projects.manage-projects')
+            ->call('startEditing', $project->id)
+            ->assertForbidden();
+
+        Livewire::test('projects.manage-projects')
+            ->set('newNames.' . $project->id, 'Hijacked')
+            ->call('saveRename', $project->id)
+            ->assertForbidden();
+
+        Livewire::test('projects.manage-projects')
+            ->call('confirmArchive', $project->id)
+            ->assertForbidden();
+
+        Livewire::test('projects.manage-projects')
+            ->call('archive', $project->id)
+            ->assertForbidden();
+
+        // Row unchanged
+        $this->assertDatabaseHas('projects', [
+            'id' => $project->id,
+            'name' => 'Locked Down',
+            'archived_at' => null,
+        ]);
+    }
+
+    /**
+     * Whitespace-only names are "empty" → validation error, no row
+     */
+    public function test_cannot_create_project_with_whitespace_only_name(): void
+    {
+        $admin = User::where('email', 'admin@iium.edu.my')->first();
+        $this->actingAs($admin);
+
+        Livewire::test('projects.manage-projects')
+            ->set('newProjectName', '   ')
+            ->call('create')
+            ->assertHasErrors(['newProjectName' => 'required']);
+
+        $this->assertDatabaseCount('projects', 0);
     }
 
     /**
@@ -214,29 +287,51 @@ class ProjectManagementTest extends TestCase
         $admin = User::where('email', 'admin@iium.edu.my')->first();
         $this->actingAs($admin);
 
-        $project = Project::create([
-            'name' => 'Archived Project',
-            'archived_at' => now(),
+        // Create a project, then archive it directly (setup, not under test)
+        $project = Project::create(['name' => 'Already Archived', 'archived_at' => now()]);
+        $originalArchivedAt = $project->fresh()->archived_at;
+
+        // Every mutation action must be rejected while archived
+        Livewire::test('projects.manage-projects')
+            ->call('startEditing', $project->id)
+            ->assertForbidden();
+
+        Livewire::test('projects.manage-projects')
+            ->set('newNames.' . $project->id, 'Hijacked Name')
+            ->call('saveRename', $project->id)
+            ->assertForbidden();
+
+        Livewire::test('projects.manage-projects')
+            ->call('confirmArchive', $project->id)
+            ->assertForbidden();
+
+        Livewire::test('projects.manage-projects')
+            ->call('archive', $project->id)
+            ->assertForbidden();
+
+        // Row unchanged: name intact, still archived, archived_at untouched
+        $this->assertDatabaseHas('projects', [
+            'id' => $project->id,
+            'name' => 'Already Archived',
+            'archived_at' => $originalArchivedAt->format('Y-m-d H:i:s'),
         ]);
+    }
 
-        // Try to rename archived project - should throw exception
-        $this->expectException(\Illuminate\Auth\Access\AuthorizationException::class);
+    /**
+     * Matrix row: Mutation of archived project → tombstone renders read-only (no controls, badge shown)
+     */
+    public function test_archived_project_renders_read_only(): void
+    {
+        $admin = User::where('email', 'admin@iium.edu.my')->first();
+        $this->actingAs($admin);
 
-        try {
-            Livewire::test('projects.manage-projects')
-                ->call('startEditing', $project->id)
-                ->set('newNames.' . $project->id, 'New Name')
-                ->call('saveRename', $project->id);
-        } catch (\Illuminate\Auth\Access\AuthorizationException $e) {
-            // Verify name did not change
-            $this->assertDatabaseHas('projects', [
-                'id' => $project->id,
-                'name' => 'Archived Project',
-            ]);
+        Project::create(['name' => 'Tombstone Project', 'archived_at' => now()]);
 
-            // Re-throw for the test expectation
-            throw $e;
-        }
+        $response = $this->get(route('dashboard'));
+
+        $response->assertSee('Archived Projects');
+        $response->assertSee('Tombstone Project');
+        $response->assertSee('Read-only view of archived projects');
     }
 
     /**

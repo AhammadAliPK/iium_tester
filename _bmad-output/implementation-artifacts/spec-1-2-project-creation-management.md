@@ -2,7 +2,7 @@
 title: '1.2 Project Creation & Management'
 type: 'feature'
 created: '2026-08-19'
-status: 'in-progress'
+status: 'in-review'
 review_loop_iteration: 0
 baseline_commit: 'b9873b34258dbe4f360ea58bec355691c5fbfd1c'
 context:
@@ -72,14 +72,14 @@ context:
 ## Tasks & Acceptance
 
 **Execution:**
-- [ ] `database/migrations/` -- role column (default `tester`, seeded user → `admin`) + projects table -- schema per spine
-- [ ] `app/Enums/UserRole.php` + `app/Models/User.php` -- UserRole enum with cast -- snake_case stored values
-- [ ] `app/Models/Project.php` -- model with `isActive` scope and `isArchived` helper -- active-list filtering in one place
-- [ ] `app/Providers/AppServiceProvider.php` -- `Gate::define('admin')` -- single central definition (AD-5)
-- [ ] `app/Livewire/Projects/ManageProjects.php` + view -- DLS management surface: active cards, create form, inline rename, archive confirm, archived read-only section; `authorize` on mount and every action -- the story's core deliverable
-- [ ] `resources/views/dashboard.blade.php` -- replace placeholder with ManageProjects -- dashboard becomes project home
-- [ ] `routes/web.php` -- `/projects` route (auth, can:admin) -- deep-link entry beside the dashboard embed
-- [ ] `tests/Feature/ProjectManagementTest.php` -- one test per matrix row -- AC evidence
+- [x] `database/migrations/` -- role column (default `tester`, seeded user → `admin`) + projects table -- schema per spine
+- [x] `app/Enums/UserRole.php` + `app/Models/User.php` -- UserRole enum with cast -- snake_case stored values
+- [x] `app/Models/Project.php` -- model with `isActive` scope and `isArchived` helper -- active-list filtering in one place
+- [x] `app/Providers/AppServiceProvider.php` -- `Gate::define('admin')` -- single central definition (AD-5)
+- [x] `app/Livewire/Projects/ManageProjects.php` + view -- DLS management surface: active cards, create form, inline rename, archive confirm, archived read-only section; `authorize` on mount and every action -- the story's core deliverable
+- [x] `resources/views/dashboard.blade.php` -- replace placeholder with ManageProjects -- dashboard becomes project home
+- [x] `routes/web.php` -- `/projects` route (auth, can:admin) -- deep-link entry beside the dashboard embed
+- [x] `tests/Feature/ProjectManagementTest.php` -- one test per matrix row -- AC evidence
 
 **Acceptance Criteria:**
 - Given an Admin on the dashboard, when creating a Project with a name, then it appears in the active project list.

@@ -57,6 +57,9 @@ class ManageProjects extends Component
     {
         $this->authorize('admin');
 
+        // Whitespace-only names must fail validation, not create blank rows
+        $this->newProjectName = trim($this->newProjectName);
+
         $this->validate([
             'newProjectName' => 'required|string|max:255',
         ]);
@@ -96,6 +99,9 @@ class ManageProjects extends Component
     public function saveRename(int $projectId): void
     {
         $this->authorizeAction($projectId);
+
+        // Whitespace-only names must fail validation, not blank out projects
+        $this->newNames[$projectId] = trim($this->newNames[$projectId] ?? '');
 
         $this->validate([
             "newNames.{$projectId}" => 'required|string|max:255',
