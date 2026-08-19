@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Brainstorm Intent — Test Reporting Platform</title>
+<style>
+  @page { size: A4; margin: 18mm 16mm; }
+  * { box-sizing: border-box; }
+  body {
+    font-family: -apple-system, "Helvetica Neue", "Segoe UI", Arial, sans-serif;
+    color: #1f2933; font-size: 10.5pt; line-height: 1.55; margin: 0;
+  }
+  .header { border-bottom: 3px solid #2456d6; padding-bottom: 10pt; margin-bottom: 18pt; }
+  .header .kicker { font-size: 8.5pt; letter-spacing: 2.5px; text-transform: uppercase; color: #2456d6; font-weight: 700; }
+  .header h1 { font-size: 20pt; margin: 4pt 0 2pt; line-height: 1.2; }
+  .header .meta { font-size: 8.5pt; color: #6b7280; }
+  h2 { font-size: 12pt; color: #2456d6; margin: 16pt 0 6pt; padding-bottom: 2pt; border-bottom: 1px solid #d9e2f5; }
+  p { margin: 0 0 8pt; }
+  ol, ul { margin: 0 0 8pt; padding-left: 16pt; }
+  li { margin-bottom: 3pt; }
+  .roles li strong, .insights li strong { color: #1f2933; }
+  table { width: 100%; border-collapse: collapse; margin: 4pt 0 10pt; font-size: 9.5pt; }
+  th, td { border: 1px solid #d5dbe5; padding: 5pt 7pt; text-align: left; vertical-align: top; }
+  th { background: #eef2fb; color: #2456d6; font-size: 8.5pt; text-transform: uppercase; letter-spacing: 1px; width: 88pt; }
+  .must th { background: #e7f0e8; color: #2f6b3a; }
+  .should th { background: #fdf3e0; color: #9a6b0f; }
+  .could th { background: #eef2fb; color: #2456d6; }
+  .wont th { background: #faeaea; color: #a33a3a; }
+  .callout {
+    background: #f4f7ff; border-left: 3px solid #2456d6; padding: 8pt 10pt; margin: 4pt 0 10pt;
+    font-size: 10pt;
+  }
+  .openq li { color: #374151; }
+  .footer { margin-top: 16pt; padding-top: 6pt; border-top: 1px solid #e3e7ee; font-size: 8pt; color: #9aa3af; }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="kicker">Brainstorm Intent</div>
+  <h1>Test Reporting Platform</h1>
+  <div class="meta">Project: iium_tester &nbsp;·&nbsp; Date: 2026-08-19 &nbsp;·&nbsp; Source: brainstorming session (complete)</div>
+</div>
+
+<h2>Product Intent</h2>
+<p>An internal web tool that replaces a paper-based test-execution process where test cases are printed, manually marked with pass/fail ticks and handwritten comments, then submitted to developers. The platform transforms the report from a manufactured artifact into a <strong>free byproduct of testing</strong>—capturing verdicts digitally at the moment of testing, eliminating transcription, and providing test cases with memory across fix/re-test cycles.</p>
+
+<h2>Problem &amp; Current Pain</h2>
+<p>The existing paper process requires testers to manually tick pass/fail on printed test cases and write comments by hand. These marked sheets are submitted directly to developers, who must extract failures, prioritize them, and fix them one by one. Re-testing requires a full reprint with only a handwritten date as version history. This creates transcription delays, lacks historical tracking, and forces developers to work from paper artifacts.</p>
+
+<h2>Users &amp; Roles</h2>
+<ul class="roles">
+  <li><strong>Admin</strong> — create projects, add/remove users</li>
+  <li><strong>Business User</strong> — create/modify test cases <em>and</em> run tests</li>
+  <li><strong>Developer</strong> — view reports, run cases to reproduce issues, fix bugs</li>
+  <li><strong>Tester</strong> — update test status</li>
+</ul>
+
+<h2>Core Workflow</h2>
+<ol>
+  <li>Business user authors test cases per feature</li>
+  <li>Suite sent to project's developers</li>
+  <li>Business user runs tests (tick pass/fail + comment)</li>
+  <li>Report auto-generated and submitted to developers</li>
+  <li>Developer views failures first (prioritized)</li>
+  <li>Developer runs same case to reproduce</li>
+  <li>Developer fixes issues one by one</li>
+  <li>Business user re-runs (full suite or failed-only)</li>
+  <li>Repeat until feature declared done</li>
+</ol>
+
+<h2>Key Insights</h2>
+<div class="callout"><strong>The tick screen is the product</strong> — the interface where verdicts are captured at the moment of testing is the core value; everything else is a view of the ticks. The real unit of the product is the <strong>cycle</strong> (run → report → reproduce → fix → re-run), not the report itself.</div>
+<ul class="insights">
+  <li><strong>Report as free byproduct</strong> — zero transcription; testing directly creates the report</li>
+  <li><strong>Test case memory</strong> — status history per case across fix/re-test cycles</li>
+  <li><strong>Failures-first</strong> — developers see what needs fixing immediately</li>
+  <li><strong>Multiple runners</strong> — same cases, separate runners (business user and developer)</li>
+</ul>
+
+<h2>Scope (MoSCoW)</h2>
+<table class="must">
+  <tr><th>MUST</th><td>4 roles/permissions · suites per feature · tick pass/fail + comment per runner · auto-generated report submitted to devs · failures-first view · re-run full-or-failed-only · status history per case</td></tr>
+</table>
+<table class="should">
+  <tr><th>SHOULD</th><td>Reproduced status · fix-progress visibility · feature done-declaration (by business user)</td></tr>
+</table>
+<table class="could">
+  <tr><th>COULD</th><td>Mid-run edits with admin approval · disagreement flag · admin dashboard</td></tr>
+</table>
+<table class="wont">
+  <tr><th>WON'T</th><td>CI hooks · mobile apps · SaaS billing</td></tr>
+</table>
+
+<h2>Resolved Decisions</h2>
+<ul class="openq">
+  <li><strong>Testing done is declared by the business user</strong></li>
+  <li><strong>Mid-run test-case edits require admin approval</strong> before taking effect</li>
+</ul>
+
+<div class="footer">Generated from session memlog: _bmad-output/brainstorming/brainstorm-test-reporting-platform-2026-08-19/.memlog.md</div>
+
+</body>
+</html>

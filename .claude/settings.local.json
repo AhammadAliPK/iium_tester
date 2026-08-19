@@ -1,0 +1,18 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(open \"/Users/ahammadali/dev/akonia_masterclasses/IIUM_event_aug_19_2026/product/.claude/skills/bmad-brainstorming/assets/brain-selector.html\")",
+      "Bash(python3:*)",
+      "Bash(cp .claude/skills/bmad-brainstorming/scripts/brain.py /tmp/brain_fixed.py)",
+      "Bash(sed -i '' '1s|^#!.*|&\\\\nfrom __future__ import annotations|' /tmp/brain_fixed.py)",
+      "Bash(command -v pandoc wkhtmltopdf weasyprint)",
+      "Read(//Applications/Google Chrome.app/**)",
+      "Bash(\"/Applications/Google Chrome.app/Contents/MacOS/Google Chrome\" --headless --disable-gpu --print-to-pdf=\"brainstorm-intent.pdf\" --no-pdf-header-footer \"file://$\\(pwd\\)/brainstorm-intent.html\")",
+      "Bash(open:*)",
+      "Bash(cat _bmad/bmm/config.yaml)",
+      "Bash(cat _bmad/bmm/config.user.yaml)",
+      "Bash(ls _bmad-output/planning-artifacts/)",
+      "Bash(find _bmad-output -name \"prd.md\")"
+    ]
+  }
+}
