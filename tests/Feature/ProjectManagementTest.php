@@ -39,15 +39,17 @@ class ProjectManagementTest extends TestCase
         $user = User::factory()->create(['role' => UserRole::TESTER]);
         $this->actingAs($user);
 
-        // Create a test project
-        Project::create(['name' => 'Test Project']);
+        // Create a test project and assign the tester to it (1.3 contract:
+        // non-admins see only their assigned active projects)
+        $project = Project::create(['name' => 'Test Project']);
+        $user->projects()->attach($project->id);
 
         $response = $this->get(route('dashboard'));
 
         // The component itself doesn't abort, so the response should be OK
         $response->assertOk();
 
-        // Should see the project name
+        // Should see the assigned project name
         $response->assertSee('Test Project');
 
         // Should see the Projects section header

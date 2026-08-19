@@ -191,6 +191,26 @@ So that I only see and do what applies to me.
 
 **And** every route in the application is mapped to exactly one owning role list (no unprotected or orphan routes)
 
+### Story 1.5: Mobile Navigation Drawer
+
+As a mobile user,
+I want a slide-in navigation drawer,
+So that I can navigate the platform comfortably on a phone.
+
+**Acceptance Criteria:**
+
+**Given** a phone-width viewport (below the sidebar breakpoint)
+**When** I tap the menu toggle in the header
+**Then** the sidebar opens as an overlay drawer with my role-appropriate links
+
+**Given** the drawer is open
+**When** I tap a link, the backdrop, or the toggle again
+**Then** the drawer closes and navigation proceeds cleanly
+
+**And** the desktop sidebar remains unchanged (no toggle visible at or above the breakpoint)
+
+**Notes:** Desktop sidebar and its CSS-only horizontal-strip fallback shipped with the app shell (spec-sidebar-navigation.md). This story upgrades the mobile experience to a proper drawer (Alpine allowed — on-stack via Livewire; no JS-framework frontend per AD-1).
+
 ## Epic 2: Test Case Authoring
 
 Business Users author the testing script book: Features with Test Suites of Test Cases structured into numbered Steps — the digital replacement for the printed pack.

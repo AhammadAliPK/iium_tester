@@ -1,8 +1,10 @@
 @props(['sticky' => true, 'blurred' => true])
 
+<style>:root { --iium-header-h: 76px; }</style>
+
 <header @if($sticky) style="position: sticky; top: 0; background: var(--color-iium-deep); backdrop-filter: blur(10px); z-index: 100; border-bottom: 1px solid var(--color-iium-border-subtle);" @else style="background: var(--color-iium-deep); border-bottom: 1px solid var(--color-iium-border-subtle);" @endif>
-    <div class="iium-container">
-        <div style="display: flex; justify-content: space-between; align-items: center; padding: 24px 0;">
+    <x-iium-container>
+        <div style="display: flex; justify-content: space-between; align-items: center; height: var(--iium-header-h);">
             <div style="display: flex; align-items: center; gap: 16px;">
                 <h1 style="font-family: var(--font-heading); font-size: 20px; margin: 0;">
                     IIUM <span style="color: var(--color-iium-gold)">DIGITAL</span>
@@ -23,5 +25,5 @@
                 <x-iium-theme-toggle />
             </div>
         </div>
-    </div>
+    </x-iium-container>
 </header>

@@ -12,6 +12,7 @@ Establish the technical and access-control foundation for iium_tester. This epic
 - Story 1.2: Project Creation & Management
 - Story 1.3: Team Management with Global Roles
 - Story 1.4: Role-Based Permission Enforcement
+- Story 1.5: Mobile Navigation Drawer
 
 ## Requirements & Constraints
 
