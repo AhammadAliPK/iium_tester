@@ -164,4 +164,57 @@ class SidebarNavigationTest extends TestCase
         $response = $this->get(route('users'));
         $response->assertSee('class="iium-sidebar"', false);
     }
+
+    public function test_authed_users_get_drawer_toggle_with_aria_attributes(): void
+    {
+        $user = User::factory()->create(['role' => 'tester']);
+        $this->actingAs($user);
+
+        $response = $this->get(route('dashboard'));
+        $response->assertOk();
+
+        $response->assertSee('class="iium-nav-toggle"', false);
+        $response->assertSee('aria-label="Toggle navigation"', false);
+        $response->assertSee('aria-controls="app-sidebar"', false);
+        $response->assertSee(':aria-expanded', false);
+        $response->assertSee('$store.nav.toggle()', false);
+    }
+
+    public function test_guests_get_no_drawer_toggle_or_backdrop(): void
+    {
+        $response = $this->get(route('login'));
+        $response->assertOk();
+
+        $response->assertDontSee('iium-nav-toggle');
+        $response->assertDontSee('sidebar-backdrop');
+        $response->assertDontSee('$store.nav');
+    }
+
+    public function test_authed_users_get_drawer_and_backdrop_markup(): void
+    {
+        $user = User::factory()->create(['role' => 'tester']);
+        $this->actingAs($user);
+
+        $response = $this->get(route('dashboard'));
+        $response->assertOk();
+
+        // Drawer overlay + backdrop + close bindings present
+        $response->assertSee('class="sidebar-backdrop"', false);
+        $response->assertSee('@keydown.escape.window', false);
+        $response->assertSee('$store.nav.close()', false);
+    }
+
+    public function test_non_admin_drawer_has_no_admin_links(): void
+    {
+        $tester = User::factory()->create(['role' => 'tester']);
+        $this->actingAs($tester);
+
+        $response = $this->get(route('dashboard'));
+        $response->assertOk();
+
+        // Drawer renders the same links as desktop: Dashboard only for non-admins
+        $response->assertSee('Dashboard');
+        $response->assertDontSee('href="' . route('projects') . '"', false);
+        $response->assertDontSee('href="' . route('users') . '"', false);
+    }
 }

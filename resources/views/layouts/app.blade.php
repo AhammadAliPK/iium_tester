@@ -3,7 +3,7 @@
     <head>
         @include('partials.head')
     </head>
-    <body class="min-h-screen" style="display: flex; flex-direction: column;">
+    <body class="min-h-screen" style="display: flex; flex-direction: column; background: var(--color-iium-surface);">
         <x-iium-header />
 
         @auth

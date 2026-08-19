@@ -1,6 +1,32 @@
 @props(['sticky' => true, 'blurred' => true])
 
-<style>:root { --iium-header-h: 76px; }</style>
+<style>
+    :root { --iium-header-h: 76px; }
+
+    .iium-nav-toggle {
+        display: inline-flex;
+        flex-direction: column;
+        justify-content: center;
+        gap: 4px;
+        background: none;
+        border: 1px solid var(--color-iium-border-subtle);
+        border-radius: var(--radius-iium-sm);
+        padding: 10px;
+        cursor: pointer;
+    }
+
+    .iium-nav-toggle span {
+        display: block;
+        width: 18px;
+        height: 2px;
+        background: var(--color-iium-text-primary);
+    }
+
+    /* Toggle exists only below the 900px breakpoint */
+    @media (min-width: 901px) {
+        .iium-nav-toggle { display: none; }
+    }
+</style>
 
 <header @if($sticky) style="position: sticky; top: 0; background: var(--color-iium-deep); backdrop-filter: blur(10px); z-index: 100; border-bottom: 1px solid var(--color-iium-border-subtle);" @else style="background: var(--color-iium-deep); border-bottom: 1px solid var(--color-iium-border-subtle);" @endif>
     <x-iium-container>
@@ -12,6 +38,15 @@
             </div>
             <div style="display: flex; gap: 16px; align-items: center;">
                 @auth
+                    <button type="button" class="iium-nav-toggle" x-data
+                            aria-label="Toggle navigation"
+                            aria-controls="app-sidebar"
+                            :aria-expanded="$store.nav.open ? 'true' : 'false'"
+                            @click="$store.nav.toggle()">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </button>
                     <span style="font-size: 13px; color: var(--color-iium-text-secondary);">
                         {{ auth()->user()->name }}
                     </span>

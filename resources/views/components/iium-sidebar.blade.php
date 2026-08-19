@@ -6,31 +6,62 @@
     $isUsers = request()->routeIs('users');
 @endphp
 
-<nav class="iium-sidebar">
+<!-- Backdrop: rendered only with the sidebar (auth), visible only below 900px -->
+<div class="sidebar-backdrop" x-data aria-hidden="true"
+     :class="$store.nav.open ? 'backdrop-visible' : ''"
+     @click="$store.nav.close()"></div>
+
+<nav id="app-sidebar" class="iium-sidebar" x-data
+     :class="$store.nav.open ? 'drawer-open' : ''"
+     @keydown.escape.window="$store.nav.close()">
     <div class="sidebar-nav-items">
         <!-- Dashboard - available to all authenticated users -->
-        <a href="{{ route('dashboard') }}"
+        <a href="{{ route('dashboard') }}" @click="$store.nav.close()"
            class="sidebar-nav-item {{ $isDashboard ? 'active' : '' }}">
             Dashboard
         </a>
 
-        <!-- Projects - admin only -->
         @can('admin')
-        <a href="{{ route('projects') }}"
+        <!-- Projects / Team - admin only -->
+        <a href="{{ route('projects') }}" @click="$store.nav.close()"
            class="sidebar-nav-item {{ $isProjects ? 'active' : '' }}">
             Projects
         </a>
-        @endcan
-
-        <!-- Team - admin only -->
-        @can('admin')
-        <a href="{{ route('users') }}"
+        <a href="{{ route('users') }}" @click="$store.nav.close()"
            class="sidebar-nav-item {{ $isUsers ? 'active' : '' }}">
             Team
         </a>
         @endcan
     </div>
 </nav>
+
+<script>
+    // Shared drawer state: header toggle and sidebar are separate Blade
+    // components, so an Alpine store is the lightest shared mechanism on
+    // the stack (no Livewire round-trips, per spec). Registers before the
+    // header toggle binds: both render only for authed users, and this
+    // script is parsed first in DOM order via the sidebar include.
+    document.addEventListener('alpine:init', () => {
+        Alpine.store('nav', {
+            open: false,
+            toggle() { this.open ? this.close() : this.show(); },
+            show() {
+                this.open = true;
+                document.documentElement.classList.add('nav-locked');
+            },
+            close() {
+                this.open = false;
+                document.documentElement.classList.remove('nav-locked');
+            },
+        });
+
+        // The drawer exists only below the 900px breakpoint; crossing to
+        // desktop closes it and releases the body scroll lock
+        window.matchMedia('(min-width: 901px)').addEventListener('change', (e) => {
+            if (e.matches) { Alpine.store('nav').close(); }
+        });
+    });
+</script>
 
 <style>
     .iium-sidebar {
@@ -83,48 +114,54 @@
         border-left-color: var(--color-iium-gold);
     }
 
-    /* Horizontal nav strip for mobile/tablet (<900px) */
+    /* Off-canvas drawer (<900px): the header hamburger slides the sidebar
+       in as an overlay. Desktop (>=901px) is untouched above. */
     @media (max-width: 900px) {
-        /* Stack the shell: strip on top, content below — a flex ROW here
-           makes the 100%-wide strip and the content fight and overflow */
-        .iium-app-wrapper {
-            flex-direction: column;
+        html.nav-locked {
+            overflow: hidden;
         }
 
         .iium-sidebar {
-            width: 100%;
-            border-right: none;
-            border-bottom: 1px solid var(--color-iium-border-subtle);
-            padding: 16px 0;
-            overflow-x: auto;
-            -webkit-overflow-scrolling: touch;
+            position: fixed;
+            top: var(--iium-header-h, 76px);
+            bottom: 0;
+            left: 0;
+            width: 280px;
+            z-index: 90;
+            transform: translateX(-100%);
+            transition: transform var(--iium-duration, 250ms) var(--iium-ease-spring, cubic-bezier(.34, 1.56, .64, 1));
+            overflow-y: auto;
+        }
+
+        .iium-sidebar.drawer-open {
+            transform: translateX(0);
         }
 
         .sidebar-nav-items {
-            flex-direction: row;
-            white-space: nowrap;
-            /* Undo the desktop sticky panel behavior */
+            /* Undo the desktop sticky panel behavior: the drawer itself
+               is the fixed panel now */
             position: static;
             top: auto;
-            height: auto;
             max-height: none;
             overflow-y: visible;
         }
 
-        .sidebar-nav-item {
-            border-left: none;
-            border-bottom: 3px solid transparent;
-            padding: 12px 16px;
+        .sidebar-backdrop {
+            position: fixed;
+            top: var(--iium-header-h, 76px);
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 80;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity var(--iium-duration, 250ms) ease, visibility var(--iium-duration, 250ms) ease;
         }
 
-        .sidebar-nav-item:hover {
-            border-bottom-color: var(--color-iium-border-active);
-            border-left-color: transparent;
-        }
-
-        .sidebar-nav-item.active {
-            border-bottom-color: var(--color-iium-gold);
-            border-left-color: transparent;
+        .sidebar-backdrop.backdrop-visible {
+            opacity: 1;
+            visibility: visible;
         }
     }
 </style>

@@ -2,7 +2,7 @@
 title: '1.5 Mobile Navigation Drawer'
 type: 'feature'
 created: '2026-08-19'
-status: 'draft'
+status: 'approved'
 review_loop_iteration: 0
 context:
   - {project-root}/_bmad-output/implementation-artifacts/epic-1-context.md
