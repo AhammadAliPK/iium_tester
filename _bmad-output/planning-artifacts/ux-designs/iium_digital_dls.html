@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IIUM Digital — Design Language System</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=Inter:wght@300;400;500;600;700&family=Roboto+Slab:wght@300;400;600;700&display=swap" rel="stylesheet">
+<style>
+  /* ============================================================
+     IIUM DESIGN LANGUAGE SYSTEM — BRAND TOKENS (Light Theme)
+     ============================================================ */
+
+  :root {
+    /* ============================================================
+       IIUM OFFICIAL BRAND COLORS - Visual Identity System 2021
+       ============================================================ */
+
+    /* --- PRIMARY CORPORATE COLOURS --- */
+    --iium-turquoise:    #00928F; /* PANTONE 7716 C - Official IIUM Turquoise */
+    --iium-gold:         #D59F0F; /* PANTONE 7555 C - Official IIUM Gold */
+    --iium-black:        #000000;
+    --iium-white:        #FFFFFF;
+
+    /* --- LEGACY TOKEN (mapped to turquoise for compatibility) --- */
+    --iium-teal:         #00928F; /* Alias for --iium-turquoise */
+
+    /* --- LIGHT THEME SURFACE ARCHITECTURE --- */
+    --iium-deep:          #FFFFFF; /* Pure white base background */
+    --iium-surface:       #F8FAFC; /* Light gray-blue component background */
+    --iium-surface-raised: #FFFFFF; /* Card/elevated surface */
+
+    /* --- BORDERS & SEMANTICS --- */
+    --iium-border-subtle: rgba(0, 146, 143, 0.15);  /* Subtle turquoise border */
+    --iium-border-active: rgba(213, 159, 15, 0.3);  /* Gold border for focus */
+    --iium-glass:         rgba(0, 146, 143, 0.04);  /* Subtle tinted glass */
+
+    /* --- TEXT STATES --- */
+    --iium-text-primary:   #1A202C;   /* Dark gray for primary text */
+    --iium-text-secondary: #4A5568;   /* Medium gray for secondary text */
+    --iium-text-muted:     #718096;   /* Light gray for muted text */
+    --iium-text-accent:    #D59F0F;   /* Gold for accents */
+
+    /* --- TYPOGRAPHY (Google Font Equivalents) --- */
+    --font-heading:       'Roboto Slab', serif;     /* Substitute for Rockwell */
+    --font-ui:            'Inter', sans-serif;       /* Interface standard */
+    --font-condensed:     'Barlow Condensed', sans-serif; /* For small caps/labels */
+
+    /* --- ANIMATION & RADIUS --- */
+    --iium-radius-lg:     14px;
+    --iium-radius-sm:     8px;
+    --iium-ease-spring:   cubic-bezier(.34, 1.56, .64, 1);
+    --iium-duration:      250ms;
+  }
+
+  /* Dark theme variant (opt-in via data-theme attribute) */
+  [data-theme="dark"] {
+    /* --- DARK PRODUCT SURFACE ARCHITECTURE --- */
+    --iium-deep:          #030F0D; /* Deep turquoise-black base background */
+    --iium-surface:       #081D1A; /* Standard component background */
+    --iium-surface-raised: #0F2B26; /* Hover / Active surface */
+
+    /* --- BORDERS & SEMANTICS --- */
+    --iium-border-subtle: rgba(0, 146, 143, 0.2);   /* Using turquoise */
+    --iium-border-active: rgba(213, 159, 15, 0.4);  /* Using gold */
+    --iium-glass:         rgba(255, 255, 255, 0.03);
+
+    /* --- TEXT STATES --- */
+    --iium-text-primary:   #FFFFFF;
+    --iium-text-secondary: rgba(255, 255, 255, 0.75);
+    --iium-text-muted:     rgba(255, 255, 255, 0.45);
+    --iium-text-accent:    #D59F0F;
+  }
+
+  /* ============================================================
+     GLOBAL STYLES
+     ============================================================ */
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background-color: var(--iium-deep);
+    color: var(--iium-text-primary);
+    font-family: var(--font-ui);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    transition: background-color var(--iium-duration) ease, color var(--iium-duration) ease;
+  }
+
+  .dls-container { max-width: 1200px; margin: 0 auto; padding: 0 40px; }
+  .grid-layout { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px; }
+
+  section { padding: 80px 0; border-bottom: 1px solid var(--iium-border-subtle); }
+
+  /* ============================================================
+     COMPONENTS
+     ============================================================ */
+
+  /* Token Badge Row */
+  .token-item {
+    display: flex;
+    justify-content: space-between;
+    padding: 14px 0;
+    border-bottom: 1px solid var(--iium-border-subtle);
+    font-family: monospace;
+    font-size: 13px;
+  }
+  .token-name { color: var(--iium-gold); }
+
+  /* Interactive Cards */
+  .iium-card {
+    background: var(--iium-surface-raised);
+    border: 1px solid var(--iium-border-subtle);
+    border-radius: var(--iium-radius-lg);
+    padding: 32px;
+    transition: all var(--iium-duration) var(--iium-ease-spring);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  }
+  .iium-card:hover {
+    transform: translateY(-4px);
+    border-color: var(--iium-gold);
+    box-shadow: 0 12px 24px rgba(0, 146, 143, 0.1);
+  }
+
+  /* Dark theme card hover */
+  [data-theme="dark"] .iium-card:hover {
+    transform: translateY(-8px);
+    border-color: var(--iium-gold);
+    background: var(--iium-surface-raised);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+  }
+
+  /* Brand Buttons */
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 12px 28px;
+    border-radius: var(--iium-radius-sm);
+    font-weight: 700;
+    cursor: pointer;
+    transition: 200ms ease;
+    border: none;
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    font-family: var(--font-condensed);
+  }
+  .btn-primary { background: var(--iium-teal); color: white; }
+  .btn-primary:hover { background: #007575; transform: translateY(-2px); }
+
+  .btn-gold { background: var(--iium-gold); color: #000; }
+  .btn-gold:hover { background: #b88a0a; }
+
+  /* Form Elements */
+  .form-control {
+    background: var(--iium-glass);
+    border: 1px solid var(--iium-border-subtle);
+    padding: 14px;
+    border-radius: var(--iium-radius-sm);
+    color: var(--iium-text-primary);
+    width: 100%;
+    margin-top: 8px;
+    font-family: var(--font-ui);
+    transition: all 200ms ease;
+  }
+  .form-control:focus {
+    border-color: var(--iium-teal);
+    outline: none;
+    background: rgba(0, 146, 143, 0.03);
+    box-shadow: 0 0 0 3px rgba(0, 146, 143, 0.1);
+  }
+
+  /* Dark theme form control focus */
+  [data-theme="dark"] .form-control:focus {
+    background: rgba(255, 255, 255, 0.05);
+  }
+
+  /* Labels */
+  .brand-label {
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--iium-gold);
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    margin-bottom: 8px;
+    display: block;
+    font-family: var(--font-condensed);
+  }
+
+  /* Theme Toggle Button (Header Style) */
+  .theme-toggle {
+    background: transparent;
+    border: 1px solid var(--iium-border-subtle);
+    border-radius: var(--iium-radius-sm);
+    padding: 8px 12px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: all 200ms ease;
+    color: var(--iium-text-primary);
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+  .theme-toggle:hover {
+    background: var(--iium-glass);
+    border-color: var(--iium-border-active);
+  }
+  .theme-toggle svg {
+    width: 18px;
+    height: 18px;
+  }
+
+  /* Hide/show theme icons based on current theme */
+  .theme-toggle .icon-moon { display: block; }
+  .theme-toggle .icon-sun { display: none; }
+  [data-theme="dark"] .theme-toggle .icon-moon { display: none; }
+  [data-theme="dark"] .theme-toggle .icon-sun { display: block; }
+
+</style>
+</head>
+<body>
+
+  <header style="padding: 24px 0; border-bottom: 1px solid var(--iium-border-subtle); position: sticky; top: 0; background: var(--iium-deep); backdrop-filter: blur(10px); z-index: 100;">
+    <div class="dls-container" style="display: flex; justify-content: space-between; align-items: center;">
+      <h1 style="font-family: var(--font-heading); font-size: 20px;">IIUM <span style="color:var(--iium-gold)">DIGITAL</span></h1>
+      <div style="display: flex; gap: 16px; align-items: center;">
+        <span style="font-size: 11px; font-weight: 700; color: var(--iium-text-secondary); text-transform: uppercase; letter-spacing: 1px;">Design Language System</span>
+        <button class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle theme">
+          <span>Dark</span>
+          <svg class="icon-moon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+          </svg>
+          <svg class="icon-sun" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
+          </svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main class="dls-container">
+
+    <section>
+      <span class="brand-label">Official Design Language v1.0 — Light Theme</span>
+      <h1 style="font-family: var(--font-heading); font-size: 64px; line-height: 1.1; margin-bottom: 24px;">
+        The Garden of <span style="color:var(--iium-teal)">Knowledge</span> <br>and Virtue.
+      </h1>
+      <p style="max-width: 600px; color: var(--iium-text-secondary); font-size: 18px; font-weight: 300;">
+        A comprehensive design system integrating IIUM's corporate identity into high-performance digital interfaces. Now with light and dark theme support.
+      </p>
+    </section>
+
+    <section id="tokens">
+      <h2 style="font-family: var(--font-heading); margin-bottom: 40px; font-size: 32px;">Core Brand Tokens</h2>
+      <div class="grid-layout">
+        <div style="grid-column: span 2;">
+          <div class="token-item"><span class="token-name">--iium-turquoise</span><span>#00928F</span></div>
+          <div class="token-item"><span class="token-name">--iium-gold</span><span>#D59F0F</span></div>
+          <div class="token-item"><span class="token-name">--iium-deep (light)</span><span>#FFFFFF</span></div>
+          <div class="token-item"><span class="token-name">--iium-deep (dark)</span><span>#030F0D</span></div>
+          <div class="token-item"><span class="token-name">--iium-heading-font</span><span>'Roboto Slab'</span></div>
+        </div>
+        <div style="display: flex; gap: 12px; flex-direction: column;">
+          <div style="background: var(--iium-teal); height: 80px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 12px; text-transform: uppercase; color: white;">Official Turquoise</div>
+          <div style="background: var(--iium-gold); height: 80px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-weight: bold; color: black; font-size: 12px; text-transform: uppercase;">Official Gold</div>
+        </div>
+      </div>
+    </section>
+
+    <section id="components">
+      <h2 style="font-family: var(--font-heading); margin-bottom: 40px; font-size: 32px;">Component Library</h2>
+      <div class="grid-layout">
+
+        <div class="iium-card">
+          <span class="brand-label">Portal Card</span>
+          <h3 style="margin-bottom: 12px; font-family: var(--font-heading); font-size: 22px;">Student Resources</h3>
+          <p style="color: var(--iium-text-secondary); font-size: 14px; margin-bottom: 24px;">Access the IIUM Library, e-learning portals, and academic records from a single interface.</p>
+          <button class="btn btn-primary">Enter Portal</button>
+        </div>
+
+        <div class="iium-card">
+          <span class="brand-label">Input Elements</span>
+          <div style="margin-top: 16px;">
+            <label style="font-size: 11px; color: var(--iium-text-muted);">Search Library Collection</label>
+            <input type="text" class="form-control" placeholder="Search keywords...">
+            <div style="margin-top: 16px; display: flex; gap: 8px;">
+              <button class="btn btn-gold" style="padding: 10px 16px; font-size: 11px;">Search</button>
+              <button class="btn" style="border: 1px solid var(--iium-border-subtle); color: var(--iium-text-primary); padding: 10px 16px; font-size: 11px;">Advanced</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="iium-card">
+          <span class="brand-label">Typography System</span>
+          <h3 style="margin-bottom: 8px; font-family: var(--font-heading);">Roboto Slab</h3>
+          <p style="color: var(--iium-text-accent); font-family: var(--font-condensed); font-size: 20px; font-weight: 700; text-transform: uppercase;">Barlow Condensed Accent</p>
+          <p style="color: var(--iium-text-secondary); font-size: 13px; margin-top: 16px;">Paired for academic authority and digital efficiency.</p>
+        </div>
+
+      </div>
+    </section>
+
+    <section style="border-bottom: none;">
+      <h2 style="font-family: var(--font-heading); margin-bottom: 40px; font-size: 32px;">Theme Support</h2>
+      <div class="iium-card" style="border-color: var(--iium-teal);">
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 40px;">
+          <div>
+            <h4 style="color: var(--iium-teal); margin-bottom: 16px; font-family: var(--font-condensed); text-transform: uppercase; letter-spacing: 1px;">Light Theme (Default)</h4>
+            <ul style="font-size: 14px; color: var(--iium-text-secondary); list-style: none;">
+              <li style="margin-bottom: 12px; display: flex; gap: 10px;"><span>✓</span> Clean white background</li>
+              <li style="margin-bottom: 12px; display: flex; gap: 10px;"><span>✓</span> Optimized readability</li>
+              <li style="margin-bottom: 12px; display: flex; gap: 10px;"><span>✓</span> IIUM branding colors</li>
+              <li style="margin-bottom: 12px; display: flex; gap: 10px;"><span>✓</span> Subtle shadows and borders</li>
+            </ul>
+          </div>
+          <div>
+            <h4 style="color: var(--iium-gold); margin-bottom: 16px; font-family: var(--font-condensed); text-transform: uppercase; letter-spacing: 1px;">Dark Theme (Optional)</h4>
+            <ul style="font-size: 14px; color: var(--iium-text-secondary); list-style: none;">
+              <li style="margin-bottom: 12px; display: flex; gap: 10px;"><span>✓</span> Deep turquoise-black background</li>
+              <li style="margin-bottom: 12px; display: flex; gap: 10px;"><span>✓</span> Reduced eye strain</li>
+              <li style="margin-bottom: 12px; display: flex; gap: 10px;"><span>✓</span> Same IIUM branding</li>
+              <li style="margin-bottom: 12px; display: flex; gap: 10px;"><span>✓</span> Toggle via button below</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <script>
+    function toggleTheme() {
+      const html = document.documentElement;
+      const currentTheme = html.getAttribute('data-theme');
+      const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+      html.setAttribute('data-theme', newTheme);
+      localStorage.setItem('iium-theme', newTheme);
+
+      // Update button text
+      const buttonSpan = document.querySelector('.theme-toggle span');
+      if (buttonSpan) {
+        buttonSpan.textContent = newTheme === 'light' ? 'Dark' : 'Light';
+      }
+    }
+
+    // Load saved theme preference and update button text
+    (function() {
+      const savedTheme = localStorage.getItem('iium-theme');
+      if (savedTheme) {
+        document.documentElement.setAttribute('data-theme', savedTheme);
+        // Update button text
+        const buttonSpan = document.querySelector('.theme-toggle span');
+        if (buttonSpan) {
+          buttonSpan.textContent = savedTheme === 'light' ? 'Dark' : 'Light';
+        }
+      }
+    })();
+  </script>
+
+  <footer style="padding: 80px 0; border-top: 1px solid var(--iium-border-subtle); text-align: center;">
+    <p style="font-size: 11px; color: var(--iium-text-muted); text-transform: uppercase; letter-spacing: 2.5px; font-weight: 600;">
+      International Islamic University Malaysia • © 2026 Digital Identity Standard
+    </p>
+  </footer>
+
+</body>
+</html>

@@ -207,6 +207,11 @@ In a Private Run, Developer can mark a Test Case **Reproduced** ("I see it too")
 
 ## 5. Cross-Cutting NFRs
 
+**Technical constraints (user-locked, 2026-08-19)**
+- **Stack:** PHP Laravel, Blade server-rendered monolith — no React/Vue SPA, no JavaScript framework frontend.
+- **Authentication:** standard Laravel session auth (httpOnly cookie); JWT and API-first auth explicitly rejected.
+- **Styling:** Tailwind CSS; the IIUM Digital DLS (`ux-designs/iium_digital_dls.html`) supplies brand tokens (colors, typography, radii, motion, light/dark themes) implemented as Tailwind theme extensions and applied via Blade components.
+
 **Requirements**
 - **Usability (MUST):** the tick screen (FR-6) is the product — at most 3 interactions per Test Case verdict, no page reload between Test Cases, every tick autosaved within 2 seconds; fully responsive on laptop, tablet, and phone browsers; PDF export of Reports is a hard requirement (FR-12).
 - **Auditability:** Edit Approval decisions and Submissions are immutable records.
