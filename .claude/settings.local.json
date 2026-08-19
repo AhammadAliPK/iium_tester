@@ -22,7 +22,27 @@
       "Bash(/Applications/MAMP/Library/bin/mysql --version)",
       "Bash(uv run:*)",
       "Bash(/tmp/bmad-sprint-venv/bin/pip install:*)",
-      "Bash(mkdir -p /tmp/bmad-py-shim)"
+      "Bash(mkdir -p /tmp/bmad-py-shim)",
+      "Bash(composer global:*)",
+      "Bash(mkdir -p .scaffold-tmp)",
+      "Bash(~/.composer/vendor/bin/laravel new:*)",
+      "Bash(cp -r .scaffold-tmp/iium_tester/.* .)",
+      "Bash(cp -r .scaffold-tmp/iium_tester/* .)",
+      "Bash(composer install:*)",
+      "Bash(npm install:*)",
+      "Bash(php artisan:*)",
+      "Bash(npm run:*)",
+      "Bash(grep -i \"iium-turquoise\\\\|iium-gold\\\\|iium-deep\" public/build/assets/*.css)",
+      "Bash(grep color-iium-turquoise:*)",
+      "Bash(strings public/build/assets/*.css)",
+      "Bash(curl -s http://localhost:8000)",
+      "Bash(curl -s http://localhost:8000/login)",
+      "Bash(curl:*)",
+      "Bash(composer show:*)",
+      "Bash(pkill -f \"php artisan serve\")",
+      "Bash(ls:*)",
+      "Bash(grep -h \"it \\\\|test \\\\|public function test\\\\|#\\\\[Test\" tests/Feature/Auth/*.php tests/Feature/DashboardTest.php)",
+      "Bash(git add:*)"
     ]
   }
 }

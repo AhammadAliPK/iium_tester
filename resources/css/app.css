@@ -1,0 +1,113 @@
+@import 'tailwindcss';
+@import '../../vendor/livewire/flux/dist/flux.css';
+
+@source '../views';
+@source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
+@source '../../vendor/livewire/flux-pro/stubs/**/*.blade.php';
+@source '../../vendor/livewire/flux/stubs/**/*.blade.php';
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+    /* IIUM Typography */
+    --font-heading: 'Roboto Slab', serif;
+    --font-ui: 'Inter', sans-serif;
+    --font-condensed: 'Barlow Condensed', sans-serif;
+
+    /* IIUM Brand Colors */
+    --color-iium-turquoise: #00928F;
+    --color-iium-gold: #D59F0F;
+    --color-iium-black: #000000;
+    --color-iium-white: #FFFFFF;
+
+    /* Light Theme Surface Architecture */
+    --color-iium-deep: #FFFFFF;
+    --color-iium-surface: #F8FAFC;
+    --color-iium-surface-raised: #FFFFFF;
+
+    /* Borders & Semantics */
+    --color-iium-border-subtle: rgba(0, 146, 143, 0.15);
+    --color-iium-border-active: rgba(213, 159, 15, 0.3);
+    --color-iium-glass: rgba(0, 146, 143, 0.04);
+
+    /* Text States */
+    --color-iium-text-primary: #1A202C;
+    --color-iium-text-secondary: #4A5568;
+    --color-iium-text-muted: #718096;
+    --color-iium-text-accent: #D59F0F;
+
+    /* Animation & Radius */
+    --radius-iium-lg: 14px;
+    --radius-iium-sm: 8px;
+}
+
+/* Dark theme overrides */
+[data-theme='dark'] {
+    --color-iium-deep: #030F0D;
+    --color-iium-surface: #081D1A;
+    --color-iium-surface-raised: #0F2B26;
+    --color-iium-border-subtle: rgba(0, 146, 143, 0.2);
+    --color-iium-border-active: rgba(213, 159, 15, 0.4);
+    --color-iium-glass: rgba(255, 255, 255, 0.03);
+    --color-iium-text-primary: #FFFFFF;
+    --color-iium-text-secondary: rgba(255, 255, 255, 0.75);
+    --color-iium-text-muted: rgba(255, 255, 255, 0.45);
+    --color-iium-text-accent: #D59F0F;
+}
+
+@layer theme {
+    .dark {
+        --color-iium-deep: #030F0D;
+        --color-iium-surface: #081D1A;
+        --color-iium-surface-raised: #0F2B26;
+        --color-iium-border-subtle: rgba(0, 146, 143, 0.2);
+        --color-iium-border-active: rgba(213, 159, 15, 0.4);
+        --color-iium-glass: rgba(255, 255, 255, 0.03);
+        --color-iium-text-primary: #FFFFFF;
+        --color-iium-text-secondary: rgba(255, 255, 255, 0.75);
+        --color-iium-text-muted: rgba(255, 255, 255, 0.45);
+        --color-iium-text-accent: #D59F0F;
+    }
+}
+
+@layer base {
+    :root {
+        /* Additional IIUM CSS variables for non-color tokens */
+        --iium-ease-spring: cubic-bezier(.34, 1.56, .64, 1);
+        --iium-duration: 250ms;
+    }
+
+    *,
+    ::after,
+    ::before,
+    ::backdrop,
+    ::file-selector-button {
+        border-color: var(--color-gray-200, currentColor);
+    }
+
+    body {
+        background-color: var(--color-iium-deep);
+        color: var(--color-iium-text-primary);
+        font-family: var(--font-ui);
+        -webkit-font-smoothing: antialiased;
+        transition: background-color var(--iium-duration) ease, color var(--iium-duration) ease;
+    }
+}
+
+[data-flux-field]:not(ui-radio, ui-checkbox) {
+    @apply grid gap-2;
+}
+
+[data-flux-label] {
+    @apply  !mb-0 !leading-tight;
+}
+
+input:focus[data-flux-control],
+textarea:focus[data-flux-control],
+select:focus[data-flux-control] {
+    @apply outline-hidden ring-2 ring-accent ring-offset-2 ring-offset-accent-foreground;
+}
+
+/* \[:where(&)\]:size-4 {
+    @apply size-4;
+} */

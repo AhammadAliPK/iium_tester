@@ -2,8 +2,9 @@
 title: '1.1 Branded Laravel Application Shell'
 type: 'feature'
 created: '2026-08-19'
-status: 'draft'
+status: 'in-progress'
 review_loop_iteration: 0
+baseline_commit: 'NO_VCS'
 context:
   - {project-root}/_bmad-output/planning-artifacts/architecture/architecture-iium_tester-2026-08-19/ARCHITECTURE-SPINE.md
 ---
@@ -69,14 +70,14 @@ context:
 ## Tasks & Acceptance
 
 **Execution:**
-- [ ] `.scaffold-tmp/` (temp) -- `composer global require laravel/installer`; `laravel new` selecting the Livewire starter kit, no teams; move contents into product root; `git init` + initial commit -- installers refuse non-empty dirs, root is the app home
-- [ ] `config/fortify.php` -- remove registration/email-verification/2FA features -- FR-2: admin-created users only
-- [ ] `database/seeders/DatabaseSeeder.php` -- seed one login-capable user -- enables manual auth verification
-- [ ] `resources/css/app.css` -- `@theme` block emitting all `--iium-*` tokens (light) + `[data-theme="dark"]` surface overrides; font imports -- AC: tokens as theme extensions
-- [ ] `resources/views/components/iium-*.blade.php` -- header, theme-toggle (moon/sun SVGs, localStorage `iium-theme`), container (1200px/40px), footer (11px uppercase, 2.5px tracking), card, brand-label -- reusable DLS components
-- [ ] `resources/views/layouts/app.blade.php` + `auth` layout -- assemble shell from components; inline theme-restore script in `<head>` -- sticky blurred header, branded auth + app pages
-- [ ] `resources/views/dashboard.blade.php` + login page -- re-skin placeholder dashboard and login in DLS -- AC: reachable, branded, no framework code
-- [ ] `README.md` (root) -- one paragraph: serve via `composer run dev` + `npm run dev`, DB default SQLite, MAMP MySQL switch env vars -- dev onboarding
+- [x] `.scaffold-tmp/` (temp) -- `composer global require laravel/installer`; `laravel new` selecting the Livewire starter kit, no teams; move contents into product root; `git init` + initial commit -- installers refuse non-empty dirs, root is the app home
+- [x] `config/fortify.php` -- remove registration/email-verification/2FA features -- FR-2: admin-created users only
+- [x] `database/seeders/DatabaseSeeder.php` -- seed one login-capable user -- enables manual auth verification
+- [x] `resources/css/app.css` -- `@theme` block emitting all `--iium-*` tokens (light) + `[data-theme="dark"]` surface overrides; font imports -- AC: tokens as theme extensions
+- [x] `resources/views/components/iium-*.blade.php` -- header, theme-toggle (moon/sun SVGs, localStorage `iium-theme`), container (1200px/40px), footer (11px uppercase, 2.5px tracking), card, brand-label -- reusable DLS components
+- [x] `resources/views/layouts/app.blade.php` + `auth` layout -- assemble shell from components; inline theme-restore script in `<head>` -- sticky blurred header, branded auth + app pages
+- [x] `resources/views/dashboard.blade.php` + login page -- re-skin placeholder dashboard and login in DLS -- AC: reachable, branded, no framework code
+- [x] `README.md` (root) -- one paragraph: serve via `composer run dev` + `npm run dev`, DB default SQLite, MAMP MySQL switch env vars -- dev onboarding
 
 **Acceptance Criteria:**
 - Given a fresh install, when any page loads, then `--iium-*` custom properties are present (turquoise #00928F, gold #D59F0F, surfaces, borders, text states) with light theme default.
