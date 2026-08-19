@@ -42,7 +42,11 @@
       "Bash(pkill -f \"php artisan serve\")",
       "Bash(ls:*)",
       "Bash(grep -h \"it \\\\|test \\\\|public function test\\\\|#\\\\[Test\" tests/Feature/Auth/*.php tests/Feature/DashboardTest.php)",
-      "Bash(git add:*)"
+      "Bash(git add:*)",
+      "Bash(mkdir -p /tmp/story11-review)",
+      "Read(//tmp/story11-review/**)",
+      "Bash(grep -o \"iium-turquoise\\\\|data-theme=\\\\\"dark\\\\\"\" public/build/assets/*.css)",
+      "Bash(grep:*)"
     ]
   }
 }

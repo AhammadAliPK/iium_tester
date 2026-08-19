@@ -169,9 +169,9 @@ return [
         //     'confirmPassword' => true,
         //     // 'window' => 0
         // ]),
-        Features::passkeys([
-            'confirmPassword' => true,
-        ]),
+        // Features::passkeys([ // Disabled - password-only session auth for v1 (spec 1.1)
+        //     'confirmPassword' => true,
+        // ]),
     ],
 
 ];

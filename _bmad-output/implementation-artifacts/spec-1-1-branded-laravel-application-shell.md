@@ -2,7 +2,7 @@
 title: '1.1 Branded Laravel Application Shell'
 type: 'feature'
 created: '2026-08-19'
-status: 'in-progress'
+status: 'in-review'
 review_loop_iteration: 0
 baseline_commit: 'NO_VCS'
 context:

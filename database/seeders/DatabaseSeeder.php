@@ -17,10 +17,12 @@ class DatabaseSeeder extends Seeder
     {
         // Seed one admin-capable user for manual auth verification
         // Note: role column does not exist yet - will be added in Story 1.3
-        User::factory()->create([
-            'name' => 'IIUM Admin',
-            'email' => 'admin@iium.edu.my',
-            'password' => bcrypt('password'), // Default password for testing
-        ]);
+        User::query()->firstOrCreate(
+            ['email' => 'admin@iium.edu.my'],
+            [
+                'name' => 'IIUM Admin',
+                'password' => bcrypt('password'), // Default password for testing
+            ],
+        );
     }
 }
