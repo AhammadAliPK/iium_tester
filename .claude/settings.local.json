@@ -12,7 +12,10 @@
       "Bash(cat _bmad/bmm/config.yaml)",
       "Bash(cat _bmad/bmm/config.user.yaml)",
       "Bash(ls _bmad-output/planning-artifacts/)",
-      "Bash(find _bmad-output -name \"prd.md\")"
+      "Bash(find _bmad-output -name \"prd.md\")",
+      "WebSearch",
+      "Read(//Applications/MAMP/bin/php/**)",
+      "Bash(/Applications/MAMP/bin/php/php8.3*/bin/php -v)"
     ]
   }
 }

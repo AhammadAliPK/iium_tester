@@ -1,0 +1,72 @@
+# STATUS DEFINITIONS:
+# ==================
+# Epic Status:
+#   - backlog: Epic not yet started
+#   - in-progress: Epic actively being worked on
+#   - done: All stories in epic completed
+
+# Story Status:
+#   - backlog: Story only exists in epic file
+#   - ready-for-dev: Story file created, ready for development
+#   - in-progress: Developer actively working on implementation
+#   - review: Implementation complete, ready for review
+#   - done: Story completed
+
+# Retrospective Status:
+#   - optional: Can be completed but not required
+#   - done: Retrospective has been completed
+
+# Action Item Status:
+#   - open: Committed during a retrospective, not yet addressed
+#   - in-progress: Actively being worked on
+#   - done: Completed
+
+# WORKFLOW NOTES:
+# ===============
+# - Epic transitions to 'in-progress' automatically when its first story starts (via build's sprint sync)
+# - Stories can be worked in parallel if team capacity allows
+# - Developer typically creates the next story after the previous one is 'done' to incorporate learnings
+# - Dev moves story to 'review', then runs code-review (fresh context, different LLM recommended)
+# - Retrospective appends its action items to action_items; the status view surfaces open ones
+generated: 08-19-2026 14:22
+last_updated: 08-19-2026 14:22
+project: iium_tester
+project_key: NOKEY
+tracking_system: file-system
+story_location: _bmad-output/implementation-artifacts
+development_status:
+  epic-1: backlog
+  1-1-branded-laravel-application-shell: backlog
+  1-2-project-creation-management: backlog
+  1-3-team-management-with-global-roles: backlog
+  1-4-role-based-permission-enforcement: backlog
+  epic-1-retrospective: optional
+
+  epic-2: backlog
+  2-1-features-and-test-suites: backlog
+  2-2-author-test-cases-with-numbered-steps: backlog
+  2-3-manage-the-suite: backlog
+  epic-2-retrospective: optional
+
+  epic-3: backlog
+  3-1-start-a-testing-cycle-with-tester-assignment: backlog
+  3-2-the-tick-screen-execute-a-run: backlog
+  3-3-business-user-stage-with-tester-results-visible: backlog
+  3-4-run-abandonment-and-reassignment: backlog
+  3-5-immutable-status-history: backlog
+  3-6-instant-run-report: backlog
+  epic-3-retrospective: optional
+
+  epic-4: backlog
+  4-1-submit-report-to-developers: backlog
+  4-2-failures-first-developer-view-with-fixed-marking: backlog
+  4-3-pdf-export: backlog
+  4-4-re-run-failed-only-or-full: backlog
+  4-5-done-declaration: backlog
+  epic-4-retrospective: optional
+
+  epic-5: backlog
+  5-1-developer-private-runs: backlog
+  5-2-reproduced-status-in-private-runs-v1-1: backlog
+  5-3-admin-approved-mid-cycle-edits-with-versioning: backlog
+  epic-5-retrospective: optional
