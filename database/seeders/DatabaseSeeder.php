@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Enums\UserRole;
 use App\Models\User;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -16,12 +17,12 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         // Seed one admin-capable user for manual auth verification
-        // Note: role column does not exist yet - will be added in Story 1.3
         User::query()->firstOrCreate(
             ['email' => 'admin@iium.edu.my'],
             [
                 'name' => 'IIUM Admin',
                 'password' => bcrypt('password'), // Default password for testing
+                'role' => UserRole::ADMIN->value,
             ],
         );
     }

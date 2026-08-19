@@ -75,7 +75,7 @@ projects ||--o{ memberships : "staffed by"
 
 - PHP ≥ 8.3
 - Laravel 13.x
-- Livewire 3.x (official starter kit)
+- Livewire 4.x (official Laravel 13 starter kit — spine amended 2026-08-19)
 - Tailwind CSS 4.x (DLS tokens as theme extensions)
 - MySQL 8.x (MAMP local)
 

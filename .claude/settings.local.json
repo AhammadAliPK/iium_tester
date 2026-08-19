@@ -46,7 +46,9 @@
       "Bash(mkdir -p /tmp/story11-review)",
       "Read(//tmp/story11-review/**)",
       "Bash(grep -o \"iium-turquoise\\\\|data-theme=\\\\\"dark\\\\\"\" public/build/assets/*.css)",
-      "Bash(grep:*)"
+      "Bash(grep:*)",
+      "Bash(xargs -I{} sed -i '' \"s/^last_updated: .*/last_updated: {}/\" _bmad-output/implementation-artifacts/sprint-status.yaml)",
+      "Bash(code -r \"/Users/ahammadali/dev/akonia_masterclasses/IIUM_event_aug_19_2026/product\" \"/Users/ahammadali/dev/akonia_masterclasses/IIUM_event_aug_19_2026/product/_bmad-output/implementation-artifacts/spec-1-1-branded-laravel-application-shell.md\")"
     ]
   }
 }

@@ -2,7 +2,7 @@
 title: '1.1 Branded Laravel Application Shell'
 type: 'feature'
 created: '2026-08-19'
-status: 'in-review'
+status: 'done'
 review_loop_iteration: 0
 baseline_commit: 'NO_VCS'
 context:
@@ -104,3 +104,45 @@ context:
 
 **Manual checks (if no CLI):**
 - Visit `/login`, `/dashboard`: sticky blurred header, IIUM wordmark (Roboto Slab + gold span), toggle flips theme and survives reload; footer centered uppercase.
+
+## Suggested Review Order
+
+**Theming foundation**
+
+- Single source of IIUM truth: Tailwind `@theme` emits every brand token as a CSS custom property.
+  [`app.css:11`](../../resources/css/app.css#L11)
+
+- Dark surface architecture overrides, driven by the `data-theme` attribute.
+  [`app.css:45`](../../resources/css/app.css#L45)
+
+**Application shell**
+
+- Shell assembly: sticky blurred header, container, branded footer per layout.
+  [`app.blade.php:7`](../../resources/views/layouts/app.blade.php#L7)
+
+- Theme toggle logic: swaps attribute, persists to `localStorage['iium-theme']`, syncs icons.
+  [`iium-theme-toggle.blade.php:3`](../../resources/views/components/iium-theme-toggle.blade.php#L3)
+
+- Pre-paint theme restore (runs in `<head>`, before stylesheets) + dual font preconnects.
+  [`head.blade.php:22`](../../resources/views/partials/head.blade.php#L22)
+
+**Auth surface**
+
+- Fortify trimmed to password-only session auth: registration, 2FA, email verification, passkeys all off.
+  [`fortify.php:163`](../../config/fortify.php#L163)
+
+- Passkey component guarded so disabling the feature cannot 500 the page.
+  [`login.blade.php:8`](../../resources/views/pages/auth/login.blade.php#L8)
+
+- Idempotent seeder (`firstOrCreate`) for the first admin-capable user.
+  [`DatabaseSeeder.php:16`](../../database/seeders/DatabaseSeeder.php#L16)
+
+**Routing**
+
+- Landing page removed: root redirects to dashboard, guests cascade to login.
+  [`web.php:5`](../../routes/web.php#L5)
+
+**Tests**
+
+- Story invariants pinned: registration 404, Fortify feature trimming, token presence, theme wiring, restore-before-paint.
+  [`IiumShellTest.php:14`](../../tests/Feature/IiumShellTest.php#L14)
