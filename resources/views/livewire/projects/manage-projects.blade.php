@@ -47,52 +47,55 @@
 
         <!-- Active Projects List -->
         @if($this->activeProjects->count() > 0)
-            <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 24px;">
+            <x-iium-table :headers="$this->isAdmin() ? ['Project', 'Created', 'Actions'] : ['Project', 'Created']">
                 @foreach($this->activeProjects as $project)
-                    <x-iium-card padding="24px">
-                        @if($editing[$project->id] ?? false)
-                            <!-- Rename Mode -->
-                            <form wire:submit="saveRename({{ $project->id }})">
-                                <div style="margin-bottom: 16px;">
-                                    <label style="display: block; font-size: 13px; font-weight: 600; color: var(--color-iium-text-secondary); margin-bottom: 8px;">
-                                        Rename Project
-                                    </label>
-                                    <input
-                                        type="text"
-                                        wire:model.live="newNames.{{ $project->id }}"
-                                        style="width: 100%; padding: 10px 14px; border: 1px solid var(--color-iium-border-default); border-radius: var(--radius-iium-md); font-size: 14px; color: var(--color-iium-text-primary); background: var(--color-iium-surface-base);"
-                                    >
+                    @if($editing[$project->id] ?? false)
+                        <!-- Rename Mode (inline row) -->
+                        <tr>
+                            <td colspan="{{ $this->isAdmin() ? 3 : 2 }}">
+                                <form wire:submit="saveRename({{ $project->id }})">
+                                    <div style="display: flex; gap: 8px; align-items: center;">
+                                        <input
+                                            type="text"
+                                            wire:model.live="newNames.{{ $project->id }}"
+                                            placeholder="Rename project..."
+                                            style="flex: 1; max-width: 360px; padding: 8px 14px; border: 1px solid var(--color-iium-border-default); border-radius: var(--radius-iium-md); font-size: 14px; color: var(--color-iium-text-primary); background: var(--color-iium-surface-base);"
+                                        >
+                                        <button
+                                            type="submit"
+                                            style="padding: 8px 16px; background: var(--color-iium-turquoise); color: white; border: none; border-radius: var(--radius-iium-md); font-size: 13px; font-weight: 600; cursor: pointer;"
+                                        >
+                                            Save
+                                        </button>
+                                        <button
+                                            type="button"
+                                            wire:click="cancelEditing({{ $project->id }})"
+                                            style="padding: 8px 16px; background: var(--color-iium-surface-raised); color: var(--color-iium-text-primary); border: 1px solid var(--color-iium-border-default); border-radius: var(--radius-iium-md); font-size: 13px; font-weight: 600; cursor: pointer;"
+                                        >
+                                            Cancel
+                                        </button>
+                                    </div>
                                     @error("newNames.{$project->id}")
                                         <p style="color: var(--color-iium-danger); font-size: 13px; margin-top: 8px;">{{ $message }}</p>
                                     @enderror
-                                </div>
-                                <div style="display: flex; gap: 8px;">
-                                    <button
-                                        type="submit"
-                                        style="flex: 1; padding: 8px 16px; background: var(--color-iium-turquoise); color: white; border: none; border-radius: var(--radius-iium-md); font-size: 13px; font-weight: 600; cursor: pointer;"
-                                    >
-                                        Save
-                                    </button>
-                                    <button
-                                        type="button"
-                                        wire:click="cancelEditing({{ $project->id }})"
-                                        style="flex: 1; padding: 8px 16px; background: var(--color-iium-surface-raised); color: var(--color-iium-text-primary); border: 1px solid var(--color-iium-border-default); border-radius: var(--radius-iium-md); font-size: 13px; font-weight: 600; cursor: pointer;"
-                                    >
-                                        Cancel
-                                    </button>
-                                </div>
-                            </form>
-                        @else
-                            <!-- Display Mode -->
-                            <div>
-                                <h3 style="font-family: var(--font-heading); font-size: 18px; margin: 0 0 16px 0; color: var(--color-iium-text-primary);">
-                                    {{ $project->name }}
-                                </h3>
-                                @if($this->isAdmin())
-                                    <div style="display: flex; gap: 8px;">
+                                </form>
+                            </td>
+                        </tr>
+                    @else
+                        <!-- Display Mode -->
+                        <tr>
+                            <td style="font-weight: 600;">
+                                {{ $project->name }}
+                            </td>
+                            <td style="color: var(--color-iium-text-secondary);">
+                                {{ $project->created_at->format('M j, Y') }}
+                            </td>
+                            @if($this->isAdmin())
+                                <td>
+                                    <div style="display: inline-flex; gap: 8px;">
                                         <button
                                             wire:click="startEditing({{ $project->id }})"
-                                            style="flex: 1; padding: 8px 16px; background: var(--color-iium-surface-raised); color: var(--color-iium-text-primary); border: 1px solid var(--color-iium-border-default); border-radius: var(--radius-iium-md); font-size: 13px; font-weight: 600; cursor: pointer; transition: background var(--iium-duration) var(--iium-ease-spring);"
+                                            style="padding: 8px 14px; background: var(--color-iium-surface-raised); color: var(--color-iium-text-primary); border: 1px solid var(--color-iium-border-default); border-radius: var(--radius-iium-md); font-size: 12px; font-weight: 600; cursor: pointer; transition: background var(--iium-duration) var(--iium-ease-spring);"
                                             onmouseenter="this.style.background='var(--color-iium-surface-hover)'"
                                             onmouseleave="this.style.background='var(--color-iium-surface-raised)'"
                                         >
@@ -100,19 +103,19 @@
                                         </button>
                                         <button
                                             wire:click="confirmArchive({{ $project->id }})"
-                                            style="flex: 1; padding: 8px 16px; background: var(--color-iium-surface-raised); color: var(--color-iium-danger); border: 1px solid var(--color-iium-border-default); border-radius: var(--radius-iium-md); font-size: 13px; font-weight: 600; cursor: pointer; transition: background var(--iium-duration) var(--iium-ease-spring);"
+                                            style="padding: 8px 14px; background: var(--color-iium-surface-raised); color: var(--color-iium-danger); border: 1px solid var(--color-iium-border-default); border-radius: var(--radius-iium-md); font-size: 12px; font-weight: 600; cursor: pointer; transition: background var(--iium-duration) var(--iium-ease-spring);"
                                             onmouseenter="this.style.background='var(--color-iium-danger-subtle)'"
                                             onmouseleave="this.style.background='var(--color-iium-surface-raised)'"
                                         >
                                             Archive
                                         </button>
                                     </div>
-                                @endif
-                            </div>
-                        @endif
-                    </x-iium-card>
+                                </td>
+                            @endif
+                        </tr>
+                    @endif
                 @endforeach
-            </div>
+            </x-iium-table>
         @else
             <x-iium-card>
                 <div style="text-align: center; padding: 40px 0;">
@@ -141,23 +144,21 @@
                 </p>
             </div>
 
-            <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 24px;">
+            <x-iium-table :headers="['Project', 'Archived On']">
                 @foreach($this->archivedProjects as $project)
-                    <x-iium-card padding="24px" style="opacity: 0.7;">
-                        <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 16px;">
-                            <h3 style="font-family: var(--font-heading); font-size: 18px; margin: 0; color: var(--color-iium-text-primary);">
-                                {{ $project->name }}
-                            </h3>
-                            <span style="padding: 4px 12px; background: var(--color-iium-gold); color: white; border-radius: var(--radius-iium-md); font-size: 11px; font-weight: 700; text-transform: uppercase;">
+                    <tr>
+                        <td style="font-weight: 600;">
+                            {{ $project->name }}
+                            <span style="display: inline-block; margin-left: 10px; padding: 3px 10px; background: var(--color-iium-gold); color: white; border-radius: var(--radius-iium-md); font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em;">
                                 Archived
                             </span>
-                        </div>
-                        <p style="color: var(--color-iium-text-secondary); font-size: 13px; margin: 0;">
-                            Archived on {{ $project->archived_at->format('F j, Y') }}
-                        </p>
-                    </x-iium-card>
+                        </td>
+                        <td style="color: var(--color-iium-text-secondary);">
+                            {{ $project->archived_at->format('F j, Y') }}
+                        </td>
+                    </tr>
                 @endforeach
-            </div>
+            </x-iium-table>
         </div>
     @endif
 

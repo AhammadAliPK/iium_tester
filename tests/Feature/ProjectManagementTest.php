@@ -369,6 +369,38 @@ class ProjectManagementTest extends TestCase
     }
 
     /**
+     * Projects render through the reusable IIUM-branded table component
+     */
+    public function test_projects_render_in_iium_table(): void
+    {
+        $admin = User::where('email', 'admin@iium.edu.my')->first();
+        $this->actingAs($admin);
+
+        Project::create(['name' => 'Tabled Project']);
+
+        $response = $this->get(route('dashboard'));
+
+        // Branded table markup with admin columns
+        $response->assertSee('class="iium-table"', false);
+        $response->assertSee('<th>Project</th>', false);
+        $response->assertSee('<th>Created</th>', false);
+        $response->assertSee('<th>Actions</th>', false);
+        $this->assertMatchesRegularExpression(
+            '/<td[^>]*>\s*Tabled Project\s*<\/td>/',
+            $response->getContent()
+        );
+
+        // Non-admin table drops the Actions column
+        $tester = User::factory()->create(['role' => UserRole::TESTER]);
+        $project = Project::create(['name' => 'Tester Table Project']);
+        $tester->projects()->attach($project->id);
+
+        $testerResponse = $this->actingAs($tester)->get(route('dashboard'));
+        $testerResponse->assertSee('class="iium-table"', false);
+        $testerResponse->assertDontSee('<th>Actions</th>', false);
+    }
+
+    /**
      * Test that non-admins cannot access projects route directly
      */
     public function test_non_admin_cannot_access_projects_route(): void

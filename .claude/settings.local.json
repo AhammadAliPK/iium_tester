@@ -55,7 +55,10 @@
       "Read(//Users/ahammadali/.local/bin/**)",
       "Read(//opt/homebrew/bin/**)",
       "Bash(head -20 /tmp/bmad-py-shim/*.md)",
-      "Bash(PYTHONPATH=/tmp/bmad-py-shim python3 \"/Users/ahammadali/dev/akonia_masterclasses/IIUM_event_aug_19_2026/product/_bmad/scripts/render_skill.py\" --project-root \"/Users/ahammadali/dev/akonia_masterclasses/IIUM_event_aug_19_2026/product\" --skill \"/Users/ahammadali/dev/akonia_masterclasses/IIUM_event_aug_19_2026/product/.claude/skills/bmad-build\")"
+      "Bash(PYTHONPATH=/tmp/bmad-py-shim python3 \"/Users/ahammadali/dev/akonia_masterclasses/IIUM_event_aug_19_2026/product/_bmad/scripts/render_skill.py\" --project-root \"/Users/ahammadali/dev/akonia_masterclasses/IIUM_event_aug_19_2026/product\" --skill \"/Users/ahammadali/dev/akonia_masterclasses/IIUM_event_aug_19_2026/product/.claude/skills/bmad-build\")",
+      "Bash(perl -0pe 's|<script.*?</script>||gs; s|<link[^>]*href=\"https?://[^\"]*\"[^>]*>||g')",
+      "Bash(perl -0pe 's|</body>|<script>\\(function\\(\\){var out=[];document.querySelectorAll\\(\".iium-stat-grid .iium-card\"\\).forEach\\(function\\(card,i\\){var q=function\\(s\\){return card.querySelector\\(s\\)};var r=function\\(el\\){return el.getBoundingClientRect\\(\\)};var L=r\\(q\\(\".iium-stat-label\"\\)\\),V=r\\(q\\(\".iium-stat-value\"\\)\\),S=r\\(q\\(\".iium-stat-sub\"\\)\\),A=r\\(q\\(\".iium-stat-accent\"\\)\\);out.push\\({card:i,barToLabel:Math.round\\(L.top-A.bottom\\),labelToValue:Math.round\\(V.top-L.bottom\\),valueToSub:Math.round\\(S.top-V.bottom\\),valueBoxH:Math.round\\(V.height\\),cardW:Math.round\\(r\\(card\\).width\\),cardH:Math.round\\(r\\(card\\).height\\)}\\)}\\);var d=document.createElement\\(\"div\"\\);d.setAttribute\\(\"data-measure\",JSON.stringify\\(out\\)\\);document.body.appendChild\\(d\\)}\\)\\(\\);</script></body>|' /tmp/dash_measure.html)",
+      "Bash(\"/Applications/Google Chrome.app/Contents/MacOS/Google Chrome\" --headless --disable-gpu --window-size=1440,900 --dump-dom \"file:///tmp/dash_measure2.html\")"
     ]
   }
 }

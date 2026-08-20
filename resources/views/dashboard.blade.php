@@ -76,50 +76,51 @@
             <livewire:projects.manage-projects />
         </div>
     </x-iium-container>
+
+    <style>
+        .iium-stat-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 24px;
+        }
+
+        .iium-stat-accent {
+            width: 40px;
+            height: 3px;
+            border-radius: var(--radius-iium-sm);
+            margin-bottom: 20px;
+        }
+
+        .iium-stat-label {
+            font-family: var(--font-condensed);
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--color-iium-text-secondary);
+        }
+
+        .iium-stat-value {
+            font-family: var(--font-heading);
+            font-size: 44px;
+            line-height: 1.1;
+            color: var(--color-iium-text-primary);
+            margin-top: 12px;
+            /* Fixed box keeps numeral and text values bottom-aligned so the
+               sub-lines line up across cards */
+            min-height: 48px;
+            display: flex;
+            align-items: flex-end;
+        }
+
+        .iium-stat-value-text {
+            font-size: 28px;
+        }
+
+        .iium-stat-sub {
+            font-size: 13px;
+            color: var(--color-iium-text-secondary);
+            margin-top: 6px;
+        }
+    </style>
 </x-layouts::app>
-
-<style>
-    .iium-stat-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-        gap: 24px;
-    }
-
-    .iium-stat-accent {
-        width: 40px;
-        height: 3px;
-        border-radius: var(--radius-iium-sm);
-        margin-bottom: 20px;
-    }
-
-    .iium-stat-label {
-        font-family: var(--font-condensed);
-        font-size: 12px;
-        font-weight: 600;
-        text-transform: uppercase;
-        letter-spacing: 0.05em;
-        color: var(--color-iium-text-secondary);
-    }
-
-    .iium-stat-value {
-        font-family: var(--font-heading);
-        font-size: 44px;
-        line-height: 1.1;
-        color: var(--color-iium-text-primary);
-        /* Fixed box keeps numeral and text values bottom-aligned so the
-           sub-lines line up across cards */
-        min-height: 48px;
-        display: flex;
-        align-items: flex-end;
-    }
-
-    .iium-stat-value-text {
-        font-size: 28px;
-    }
-
-    .iium-stat-sub {
-        font-size: 13px;
-        color: var(--color-iium-text-secondary);
-        margin-top: 4px;
-    }
-</style>
